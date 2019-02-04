@@ -82,10 +82,24 @@ public class Sudoku01 {
     	return -1;
     }
     
+    /**
+     * @param x: column of cell
+     * @param y: row of cell
+     * @param val: value of cell
+     * @param grid: entire "sudoku"
+     * @return whether the row is valid
+     */
     private static boolean checkRow(int x, int y, int val, int[][] grid) {
     	return Sudoku01.indexOf(val, grid[y]) == -1;
     }
     
+    /**
+     * @param x: column of cell
+     * @param y: row of cell
+     * @param val: value of cell
+     * @param grid: entire "sudoku"
+     * @return whether the column is valid
+     */
     private static boolean checkColumn(int x, int y, int val, int[][] grid) {
     	// convert into single array
     	int[] rowRepresentation = new int[grid.length];
@@ -95,20 +109,26 @@ public class Sudoku01 {
     	return Sudoku01.indexOf(val, rowRepresentation) == -1;
     }
     
+    /**
+     * checking only the subgrid to find any potential violation
+     * @param x: column of cell
+     * @param y: row of cell
+     * @param val: value of cell
+     * @param grid: entire "sudoku"
+     * @return whether the subgrid is valid
+     */
     private static boolean checkSubGrid(int x, int y, int val, int[][] grid) {
     	final int subGridSize = (int) Math.sqrt(grid.length); // 2, 3, 4 etc
     	final int startRow = y - y % subGridSize; // 0, 3, 6 etc
     	final int startCol = x - x % subGridSize;
-    	// convert into single array
-    	int[] rowRepresentation = new int[grid.length];
-    	int newIndex = 0;
     	for(int i = 0; i < subGridSize; i++) {
-    		for(int j = 0; j < subGridSize; j++, newIndex++) {
-    			rowRepresentation[newIndex] = grid[startRow + i][startCol + j];
+    		for(int j = 0; j < subGridSize; j++) {
+    			if(grid[startRow + i][startCol + j] == val)
+    				return false;
     		}
     	}
-    	// check this array
-    	return Sudoku01.indexOf(val, rowRepresentation) == -1;
+    	// no violation found
+    	return true;
     }
     
     private static boolean isValid(int x, int y, int val, int[][] grid) {
