@@ -16,10 +16,12 @@ public class GameGrid {
 		return this.grid[row][column];
 	}
 	
-	public void setField(int row, int column, int val) {
-		// TODO: validate val
-		if(this.isValid(row, column, val))
-		this.grid[row][column] = val;
+	public boolean setField(int row, int column, int val) {
+		if(this.isValid(row, column, val)) {
+			this.grid[row][column] = val;
+			return true;
+		}
+		return false;
 	}
 	
 	/**
