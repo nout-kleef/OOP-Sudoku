@@ -18,6 +18,7 @@ public class GameGrid {
 	
 	public void setField(int row, int column, int val) {
 		// TODO: validate val
+		if(this.isValid(row, column, val))
 		this.grid[row][column] = val;
 	}
 	
@@ -36,44 +37,40 @@ public class GameGrid {
     }
     
     /**
-     * @param x: column of cell
-     * @param y: row of cell
+     * @param row: row of cell
      * @param val: value of cell
-     * @param grid: entire "sudoku"
      * @return whether the row is valid
      */
-    private boolean checkRow(int x, int y, int val) {
-    	return GameGrid.indexOf(val, this.grid[y]) == -1;
+    private boolean checkRow(int row, int val) {
+    	return GameGrid.indexOf(val, this.grid[row]) == -1;
     }
     
     /**
-     * @param x: column of cell
-     * @param y: row of cell
+     * @param column: column of cell
      * @param val: value of cell
-     * @param grid: entire "sudoku"
      * @return whether the column is valid
      */
-    private boolean checkColumn(int x, int y, int val) {
+    private boolean checkColumn(int column, int val) {
     	// convert into single array
     	int[] rowRepresentation = new int[this.grid.length];
     	for(int i = 0; i < rowRepresentation.length; i++)
-    		rowRepresentation[i] = this.grid[i][x];
+    		rowRepresentation[i] = this.grid[i][column];
     	// check this array
     	return GameGrid.indexOf(val, rowRepresentation) == -1;
     }
     
     /**
      * checking only the subgrid to find any potential violation
-     * @param x: column of cell
-     * @param y: row of cell
+     * @param column: column of cell
+     * @param row: row of cell
      * @param val: value of cell
      * @param grid: entire "sudoku"
      * @return whether the subgrid is valid
      */
-    private boolean checkSubGrid(int x, int y, int val) {
+    private boolean checkSubGrid(int row, int column, int val) {
     	final int subGridSize = (int) Math.sqrt(this.grid.length); // 2, 3, 4 etc
-    	final int startRow = y - y % subGridSize; // 0, 3, 6 etc
-    	final int startCol = x - x % subGridSize;
+    	final int startRow = row - row % subGridSize; // 0, 3, 6 etc
+    	final int startCol = column - column % subGridSize;
     	for(int i = 0; i < subGridSize; i++) {
     		for(int j = 0; j < subGridSize; j++) {
     			if(this.grid[startRow + i][startCol + j] == val)
@@ -84,9 +81,9 @@ public class GameGrid {
     	return true;
     }
     
-    private boolean isValid(int x, int y, int val) {
-    	return this.checkRow(x, y, val, this.grid) &&
-    			this.checkColumn(x, y, val, this.grid) &&
-    			this.checkSubGrid(x, y, val, this.grid);
+    private boolean isValid(int row, int column, int val) {
+    	return this.checkRow(row, val) &&
+    			this.checkColumn(column, val) &&
+    			this.checkSubGrid(row, column, val);
     }
 }
