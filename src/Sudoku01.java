@@ -117,25 +117,15 @@ public class Sudoku01 {
     }
     
     public static void main(String[] args) {
-    	GameGrid grid = new GameGrid(
-    		{{9,4,0,1,0,2,0,5,8},
-            {6,0,0,0,5,0,0,0,4},
-            {0,0,2,4,0,3,1,0,0},
-            {0,2,0,0,0,0,0,6,0},
-            {5,0,8,0,2,0,4,0,1},
-            {0,6,0,0,0,0,0,8,0},
-            {0,0,1,6,0,8,7,0,0},
-            {7,0,0,0,4,0,0,0,3},
-            {4,3,0,5,0,9,0,1,2}}
-    		);
-
-        grid.print();
-
+    	java.util.Objects.requireNonNull(args[0]);
+    	// use this as the path to the file holding the int[][] grid
+    	final String PATH = args[0];
+    	
         boolean userExit = false;
         while(!userExit) {
         	final int userChoice = gameLoop(1, 4); // hardcoded min and max. tolerated since the menu itself is also hardcoded
         	// handle the choice the user made
-        	userExit = Sudoku01.handleChoice(userChoice, grid);
+        	userExit = Sudoku01.handleChoice(userChoice);
         }
     }
 }
