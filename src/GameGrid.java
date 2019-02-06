@@ -52,10 +52,6 @@ public class GameGrid {
 		this.grid[row][column] = GameGrid.EMPTY_VAL;
 	}
 	
-	public void print() {
-		System.out.print(this.toString());
-	}
-	
 	public String toString() {
 		String representation = "";
     	for(int i = 0; i < this.grid.length; i++) {

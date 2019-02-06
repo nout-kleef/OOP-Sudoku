@@ -1,5 +1,4 @@
 import java.util.InputMismatchException;
-import java.util.Objects;
 import java.util.Scanner;
 
 public class Sudoku01 {
@@ -24,7 +23,8 @@ public class Sudoku01 {
      * @return The user's input as integer or -1 if the user's input was invalid.
      */
     public static int parseInput() {
-        Scanner in = new Scanner(System.in);
+        @SuppressWarnings("resource")
+		Scanner in = new Scanner(System.in);
         try {
             return in.nextInt();
         } catch (InputMismatchException missE) {
@@ -68,27 +68,27 @@ public class Sudoku01 {
         }
     }
 
-    private static void setField(GameGrid grid, boolean clear) {
-    	java.util.Objects.requireNonNull(grid);
+    private static void setField(GameGrid game, boolean clear) {
+    	java.util.Objects.requireNonNull(game);
     	final int MAX = GameGrid.MAX_VAL;
     	final String range = "(1-" + MAX + ")";
     	final int i = Sudoku01.requestInt("a row number " + range, 1, MAX) - 1; // -1 for 0-indexing
     	final int j = Sudoku01.requestInt("a column number " + range, 1, MAX) - 1; // -1 for 0-indexing
     	int val = GameGrid.EMPTY_VAL;
     	if(clear) {
-    		grid.clearField(i, j);
+    		game.clearField(i, j);
     	} else {
     		boolean valid = true;
     		do {
     			val = Sudoku01.requestInt("the desired value for the cell in row: " +
     							(i + 1) + ", column: " + (j + 1) + " " + range, 1, MAX);
-    			valid = grid.setField(i, j, val);
+    			valid = game.setField(i, j, val);
     			if(!valid)
     				System.out.println("Illegal value for this cell. Please choose a different value.");
     		} while(!valid);
     	}
     	System.out.println("Setting cell's value to " + val + "..");
-    	grid.print();
+    	System.out.println(game);
     }
 
     /**
@@ -96,17 +96,17 @@ public class Sudoku01 {
      * @param userChoice: 1,2..n, n the last menu option
      * @return whether the program/game should exit
      */
-    private static boolean handleChoice(int userChoice, GameGrid grid) {
-    	java.util.Objects.requireNonNull(grid);
+    private static boolean handleChoice(int userChoice, GameGrid game) {
+    	java.util.Objects.requireNonNull(game);
     	switch (userChoice) {
 		case 1:
-			Sudoku01.setField(grid, false);
+			Sudoku01.setField(game, false);
 			return false;
 		case 2:
-			Sudoku01.setField(grid, true);
+			Sudoku01.setField(game, true);
 			return false;
 		case 3:
-			grid.print();
+			System.out.println(game);
 			return false;
 		case 4:
 			System.out.println("Exiting..");
@@ -117,15 +117,20 @@ public class Sudoku01 {
     }
     
     public static void main(String[] args) {
-    	java.util.Objects.requireNonNull(args[0]);
+    	java.util.Objects.requireNonNull(args);
+    	if(args.length == 0)
+    		throw new IllegalArgumentException();
     	// use this as the path to the file holding the int[][] grid
     	final String PATH = args[0];
     	
+    	// initialise game
+    	GameGrid game = new GameGrid(PATH);
+    			
         boolean userExit = false;
         while(!userExit) {
         	final int userChoice = gameLoop(1, 4); // hardcoded min and max. tolerated since the menu itself is also hardcoded
         	// handle the choice the user made
-        	userExit = Sudoku01.handleChoice(userChoice);
+        	userExit = Sudoku01.handleChoice(userChoice, game);
         }
     }
 }
