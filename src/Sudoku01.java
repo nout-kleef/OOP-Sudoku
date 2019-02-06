@@ -121,10 +121,17 @@ public class Sudoku01 {
     	if(args.length == 0)
     		throw new IllegalArgumentException();
     	// use this as the path to the file holding the int[][] grid
+    	/* NOTE - PATH should be an absolute path that works for the file system
+    	 * on which this class is located.
+    	 * unfortunately it's not possible to allow for spaces in this path,
+    	 * as this would split up the path into multiple args elements
+    	 * example: C:\\Users\\[user]\\folder\\file.sd
+    	 */
     	final String PATH = args[0];
     	
     	// initialise game
     	GameGrid game = new GameGrid(PATH);
+    	System.out.println(game);
     			
         boolean userExit = false;
         while(!userExit) {
