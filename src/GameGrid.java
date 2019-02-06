@@ -15,19 +15,45 @@ public class GameGrid {
 	
 	// constructor
 	public GameGrid(int[][] grid) {
+		java.util.Objects.requireNonNull(grid);
 		this.grid = grid;
 	}
 	
+	public GameGrid(String path) {
+		java.util.Objects.requireNonNull(path);
+		this.grid = IOUtils.loadFromFile(path);
+	}
+	
+	private boolean invalidParameter(int p) {
+		return p < 0 || p >= GameGrid.GRID_DIM;
+	}
+	
 	public int getField(int row, int column) {
+		if(invalidParameter(row) || invalidParameter(column))
+			throw new IllegalArgumentException();
 		return this.grid[row][column];
 	}
 	
 	public boolean setField(int row, int column, int val) {
+		if(invalidParameter(row) || invalidParameter(column) || invalidParameter(val))
+			throw new IllegalArgumentException();
+		
 		if(this.isValid(row, column, val)) {
 			this.grid[row][column] = val;
 			return true;
 		}
 		return false;
+	}
+	
+	public void clearField(int row, int column) {
+		if(invalidParameter(row) || invalidParameter(column))
+			throw new IllegalArgumentException();
+		
+		this.grid[row][column] = GameGrid.EMPTY_VAL;
+	}
+	
+	public void print() {
+		System.out.print(this.toString());
 	}
 	
 	public String toString() {
@@ -80,6 +106,7 @@ public class GameGrid {
      * @return index of needle if it exists, -1 otherwise
      */
     private static int indexOf(int needle, int[] haystack) {
+    	java.util.Objects.requireNonNull(haystack);
     	for(int i = 0; i < haystack.length; i++) {
     		if(haystack[i] == needle)
     			return i;
