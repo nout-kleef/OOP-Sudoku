@@ -1,6 +1,6 @@
-import java.util.Scanner;
 import java.util.InputMismatchException;
 import java.util.Objects;
+import java.util.Scanner;
 
 public class Sudoku01 {
 
@@ -56,7 +56,7 @@ public class Sudoku01 {
      * @return The user's input as integer.
      */
     public static int requestInt(String msg, int min, int max) {
-        Objects.requireNonNull(msg);
+        java.util.Objects.requireNonNull(msg);
 
         while(true) {
             System.out.print("Please provide " + msg + ": ");
@@ -68,27 +68,27 @@ public class Sudoku01 {
         }
     }
 
-    private static void setField(int[][] grid, boolean clear) {
-    	final int max = grid.length;
-    	final String range = "(1-" + max + ")";
-    	final int i = Sudoku01.requestInt("a row number " + range, 1, max) - 1; // -1 for 0-indexing
-    	final int j = Sudoku01.requestInt("a column number " + range, 1, max) - 1; // -1 for 0-indexing
-    	int val;
+    private static void setField(GameGrid grid, boolean clear) {
+    	java.util.Objects.requireNonNull(grid);
+    	final int MAX = GameGrid.MAX_VAL;
+    	final String range = "(1-" + MAX + ")";
+    	final int i = Sudoku01.requestInt("a row number " + range, 1, MAX) - 1; // -1 for 0-indexing
+    	final int j = Sudoku01.requestInt("a column number " + range, 1, MAX) - 1; // -1 for 0-indexing
+    	int val = GameGrid.EMPTY_VAL;
     	if(clear) {
-    		val = 0;
+    		grid.clearField(i, j);
     	} else {
     		boolean valid = true;
     		do {
     			val = Sudoku01.requestInt("the desired value for the cell in row: " +
-    							(i + 1) + ", column: " + (j + 1) + " " + range, 1, max);
-    			valid = Sudoku01.isValid(j, i, val, grid);
+    							(i + 1) + ", column: " + (j + 1) + " " + range, 1, MAX);
+    			valid = grid.setField(i, j, val);
     			if(!valid)
     				System.out.println("Illegal value for this cell. Please choose a different value.");
     		} while(!valid);
     	}
     	System.out.println("Setting cell's value to " + val + "..");
-    	grid[i][j] = val;
-    	Sudoku01.printGrid(grid);
+    	grid.print();
     }
 
     /**
@@ -96,7 +96,8 @@ public class Sudoku01 {
      * @param userChoice: 1,2..n, n the last menu option
      * @return whether the program/game should exit
      */
-    private static boolean handleChoice(int userChoice, int[][] grid) {
+    private static boolean handleChoice(int userChoice, GameGrid grid) {
+    	java.util.Objects.requireNonNull(grid);
     	switch (userChoice) {
 		case 1:
 			Sudoku01.setField(grid, false);
@@ -105,7 +106,7 @@ public class Sudoku01 {
 			Sudoku01.setField(grid, true);
 			return false;
 		case 3:
-			Sudoku01.printGrid(grid);
+			grid.print();
 			return false;
 		case 4:
 			System.out.println("Exiting..");
@@ -116,8 +117,8 @@ public class Sudoku01 {
     }
     
     public static void main(String[] args) {
-        int[][] grid = {
-            {9,4,0,1,0,2,0,5,8},
+    	GameGrid grid = new GameGrid(
+    		{{9,4,0,1,0,2,0,5,8},
             {6,0,0,0,5,0,0,0,4},
             {0,0,2,4,0,3,1,0,0},
             {0,2,0,0,0,0,0,6,0},
@@ -125,28 +126,10 @@ public class Sudoku01 {
             {0,6,0,0,0,0,0,8,0},
             {0,0,1,6,0,8,7,0,0},
             {7,0,0,0,4,0,0,0,3},
-            {4,3,0,5,0,9,0,1,2}
-        };
-//        int[][] grid = { // 4x4 block sudoku for tests
-//                {9,4,0,1,0,2,0,5,8,1,1,1,1,1,1,1},
-//                {6,0,0,0,5,0,0,0,4,1,1,1,1,1,1,1},
-//                {0,0,2,4,0,3,1,0,0,1,1,1,1,1,1,1},
-//                {0,2,0,0,0,0,0,6,0,1,1,1,1,1,1,1},
-//                {5,0,8,0,2,0,4,0,1,1,1,1,1,1,1,1},
-//                {0,6,0,0,0,0,0,8,0,1,1,1,1,1,1,1},
-//                {0,0,1,6,0,8,7,0,0,1,1,1,1,1,1,1},
-//                {7,0,0,0,4,0,0,0,3,1,1,1,1,1,1,1},
-//                {4,3,0,5,0,9,0,1,2,1,1,1,1,1,1,1},
-//                {4,3,0,5,0,9,0,1,2,1,1,1,1,1,1,1},
-//                {4,3,0,5,0,9,0,1,2,1,1,1,1,1,1,1},
-//                {4,3,0,5,0,9,0,1,2,1,1,1,1,1,1,1},
-//                {4,3,0,5,0,9,0,1,2,1,1,1,1,1,1,1},
-//                {4,3,0,5,0,9,0,1,2,1,1,1,1,1,1,1},
-//                {4,3,0,5,0,9,0,1,2,1,1,1,1,1,1,1},
-//                {4,3,0,5,0,9,0,1,2,1,1,1,1,1,1,1}
-//            };
+            {4,3,0,5,0,9,0,1,2}}
+    		);
 
-        Sudoku01.printGrid(grid);
+        grid.print();
 
         boolean userExit = false;
         while(!userExit) {
