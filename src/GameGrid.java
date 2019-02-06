@@ -7,6 +7,12 @@ public class GameGrid {
 	public static final int MAX_VAL = GRID_DIM;
 	public static final int MIN_VAL = 1;
 	public static final int EMPTY_VAL = 0;
+	// formatting
+	private static final String HORIZONTAL_CELL_PADDING = " ";
+	private static final String HORIZONTAL_BLOCK_PADDING = "  "; // added on top of a horizontalCellPadding
+	private static final String VERTICAL_CELL_PADDING = "";
+	private static final String VERTICAL_BLOCK_PADDING = "\n";
+	
 	// constructor
 	public GameGrid(int[][] grid) {
 		this.grid = grid;
@@ -23,6 +29,49 @@ public class GameGrid {
 		}
 		return false;
 	}
+	
+	public String toString() {
+		String representation = "";
+    	for(int i = 0; i < this.grid.length; i++) {
+    		if(i != 0) {
+    			// not first row
+    			// block formatting
+    			if(i % GameGrid.SUBGRID_DIM == 0) {
+    				representation += GameGrid.VERTICAL_BLOCK_PADDING;
+    			}
+    			// cell/row formatting
+    			representation += GameGrid.VERTICAL_CELL_PADDING;
+    		}
+    		representation += this.row(i);
+    	}
+    	return representation;
+    } 
+    
+    private String row(int i) {
+    	final int[] ROW = this.grid[i];
+    	String representation = "";
+    	for(int j = 0; j < ROW.length; j++) {
+			int cell = ROW[j];
+			// cell formatting
+			if(j == 0) {
+				// first iteration
+				representation += cell;
+			} else {
+				// block formatting
+    			if(j % GameGrid.SUBGRID_DIM == 0) {
+    				representation += GameGrid.HORIZONTAL_BLOCK_PADDING;
+    			}
+    			// cell formatting
+    			representation += GameGrid.HORIZONTAL_CELL_PADDING + cell;
+    			// row formatting
+    			if(j == ROW.length - 1) {
+    				// last iteration
+    				representation += "\n";
+    			}
+			}
+		}
+    	return representation;
+    }
 	
 	/**
      * iterates over haystack to locate needle

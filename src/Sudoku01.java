@@ -90,53 +90,6 @@ public class Sudoku01 {
     	grid[i][j] = val;
     	Sudoku01.printGrid(grid);
     }
-    
-    public static void printGrid(int[][] grid) {
-    	// formatting
-    	final String horizontalCellPadding = " ";
-    	final String horizontalBlockPadding = "  "; // added on top of a horizontalCellPadding
-    	final String verticalCellPadding = "";
-    	final String verticalBlockPadding = "\n";
-    	// first row: 9 4 0  1 0 2  0 5 8
-    	final int blockSize = (int) Math.sqrt(grid.length); // for the hardcoded grid this will be 3
-    	for(int i = 0; i < grid.length; i++) {
-    		int[] row = grid[i];
-    		if(i != 0) {
-    			// not first row
-    			// block formatting
-    			if(i % blockSize == 0) {
-    				System.out.print(verticalBlockPadding);
-    			}
-    			// cell/row formatting
-    			System.out.print(verticalCellPadding);
-    		}
-    		// print current row
-    		Sudoku01.printRow(row, blockSize, horizontalBlockPadding, horizontalCellPadding);
-    	}
-    } 
-    
-    private static void printRow(int[] row, int blockSize, String horizontalBlockPadding, String horizontalCellPadding) {
-    	for(int j = 0; j < row.length; j++) {
-			int cell = row[j];
-			// cell formatting
-			if(j == 0) {
-				// first iteration
-				System.out.print(cell);
-			} else {
-				// block formatting
-    			if(j % blockSize == 0) {
-    				System.out.print(horizontalBlockPadding);
-    			}
-    			// cell formatting
-    			System.out.print(horizontalCellPadding + cell);
-    			// row formatting
-    			if(j == row.length - 1) {
-    				// last iteration
-    				System.out.print("\n");
-    			}
-			}
-		}
-    }
 
     /**
      * handle the choice the user makes when prompted by the main game loop
