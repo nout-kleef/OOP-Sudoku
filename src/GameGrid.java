@@ -1,3 +1,4 @@
+import java.util.Objects;
 
 public class GameGrid {
 	private final int[][] grid;
@@ -13,30 +14,55 @@ public class GameGrid {
 	private static final String VERTICAL_CELL_PADDING = "";
 	private static final String VERTICAL_BLOCK_PADDING = "\n";
 	
-	// constructor
+	/**
+	 * construct new GameGrid from an existing twodimensional array
+	 * @param grid: twodimensional array of integers
+	 */
 	public GameGrid(int[][] grid) {
-		java.util.Objects.requireNonNull(grid);
+		Objects.requireNonNull(grid);
 		this.grid = grid;
 	}
 	
+	/**
+	 * construct new GameGrid from a file
+	 * @param path: absolute path where sudoku file is located
+	 */
 	public GameGrid(String path) {
-		java.util.Objects.requireNonNull(path);
+		Objects.requireNonNull(path);
 		this.grid = IOUtils.loadFromFile(path);
 	}
 	
+	/**
+	 * for exception purposes. p should always we between 0 (inclusive) and GameGrid.GRID_DIM (exclusive)
+	 * @param p: value we're checking
+	 * @return: true if p is out of bounds
+	 */
 	private boolean invalidParameter(int p) {
 		return p < 0 || p >= GameGrid.GRID_DIM;
 	}
 	
+	/**
+	 * generic getter
+	 * @param row: cell's row
+	 * @param column: cell's column
+	 * @return: the value in the grid
+	 */
 	public int getField(int row, int column) {
 		if(invalidParameter(row) || invalidParameter(column))
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("row/column out of legal bounds");
 		return this.grid[row][column];
 	}
 	
+	/**
+	 * set a certain cell to a new value, provided this is a valid update
+	 * @param row: row of the cell to be set
+	 * @param column: column of the cell to be set
+	 * @param val: the desired value
+	 * @return: true if the cell was updated
+	 */
 	public boolean setField(int row, int column, int val) {
 		if(invalidParameter(row) || invalidParameter(column) || invalidParameter(val))
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("row/column/value out of legal bounds");
 		
 		if(this.isValid(row, column, val)) {
 			this.grid[row][column] = val;
@@ -45,13 +71,21 @@ public class GameGrid {
 		return false;
 	}
 	
+	/**
+	 * reset a certain cell
+	 * @param row: row of the cell to be reset
+	 * @param column: column of the cell to be reset
+	 */
 	public void clearField(int row, int column) {
 		if(invalidParameter(row) || invalidParameter(column))
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("row/column out of legal bounds");
 		
 		this.grid[row][column] = GameGrid.EMPTY_VAL;
 	}
 	
+	/**
+	 * @return: string representation of the GameGrid instance
+	 */
 	public String toString() {
 		String representation = "";
     	for(int i = 0; i < this.grid.length; i++) {
@@ -64,12 +98,17 @@ public class GameGrid {
     			// cell/row formatting
     			representation += GameGrid.VERTICAL_CELL_PADDING;
     		}
-    		representation += this.row(i);
+    		representation += this.rowToString(i);
     	}
     	return representation;
-    } 
+    }
     
-    private String row(int i) {
+	/**
+	 * convert the ith row into a string
+	 * @param i: row's index
+	 * @return: string representation of the specified row
+	 */
+    private String rowToString(int i) {
     	final int[] ROW = this.grid[i];
     	String representation = "";
     	for(int j = 0; j < ROW.length; j++) {
@@ -102,7 +141,7 @@ public class GameGrid {
      * @return index of needle if it exists, -1 otherwise
      */
     private static int indexOf(int needle, int[] haystack) {
-    	java.util.Objects.requireNonNull(haystack);
+    	Objects.requireNonNull(haystack);
     	for(int i = 0; i < haystack.length; i++) {
     		if(haystack[i] == needle)
     			return i;
@@ -155,6 +194,13 @@ public class GameGrid {
     	return true;
     }
     
+    /**
+     * check whether a value is valid in a cell
+     * @param row: the row we're checking
+     * @param column: the column we're checking
+     * @param val: the desired value
+     * @return: true if value is allowed
+     */
     private boolean isValid(int row, int column, int val) {
     	return this.checkRow(row, val) &&
     			this.checkColumn(column, val) &&

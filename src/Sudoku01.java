@@ -4,7 +4,8 @@ import java.util.Scanner;
 public class Sudoku01 {
 
     /**
-     * Print a game menu message to the console.
+     * use the console to show the game menu to the user
+     * @param max: amount of options
      */
     public static void printMenu(int max) {
         System.out.print("\n-*-*-*-*-*-*-*-*-\n" +
@@ -13,6 +14,7 @@ public class Sudoku01 {
                 "3. Print game\n" +
                 "4. Exit\n\n" +
                 "Select an action [1-" + max + "]: ");
+        // TODO: implement max in a better way
     }   
 
     /**
@@ -67,7 +69,13 @@ public class Sudoku01 {
             }
         }
     }
-
+    
+    /**
+     * set/clear a cell<br />
+     * request a row, column (and value) from the user until valid arguments are given
+     * @param game: the GameGrid instance
+     * @param clear: clears the cell if true
+     */
     private static void setField(GameGrid game, boolean clear) {
     	java.util.Objects.requireNonNull(game);
     	final int MAX = GameGrid.MAX_VAL;
@@ -119,7 +127,7 @@ public class Sudoku01 {
     public static void main(String[] args) {
     	java.util.Objects.requireNonNull(args);
     	if(args.length == 0)
-    		throw new IllegalArgumentException();
+    		throw new IllegalArgumentException("no args specified");
     	// use this as the path to the file holding the int[][] grid
     	/* NOTE - PATH should be an absolute path that works for the file system
     	 * on which this class is located.
