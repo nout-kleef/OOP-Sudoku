@@ -1,7 +1,8 @@
 import java.util.Objects;
 
 public class GameGrid {
-	private final Field[][] grid;
+	// protected to allow for a quick copy before solving
+	protected final Field[][] grid;
 	// Constants for coordinate boundaries and Sudoku numbers
 	public static final int GRID_DIM = 9;
 	public static final int SUBGRID_DIM = (int) Math.sqrt(GRID_DIM);
@@ -10,28 +11,36 @@ public class GameGrid {
 	public static final int EMPTY_VAL = 0;
 	// formatting
 	private static final String HORIZONTAL_CELL_PADDING = " ";
-	private static final String HORIZONTAL_BLOCK_PADDING = "  "; // added on top of a horizontalCellPadding
+	private static final String HORIZONTAL_BLOCK_PADDING = "  ";
 	private static final String VERTICAL_CELL_PADDING = "";
 	private static final String VERTICAL_BLOCK_PADDING = "\n";
+	
+	public GameGrid(GameGrid game) {
+		Objects.requireNonNull(game);
+		// ensuring that altering game.grid does not alter this.grid i.e. deep-copy
+		this.grid = deepCopyGrid(game.grid);
+	}
 	
 	/**
 	 * construct new GameGrid from an existing twodimensional array
 	 * @param : twodimensional array of Field instances
 	 */
-	public GameGrid(Field[][] grid) {
+	public GameGrid(int[][] grid) {
 		Objects.requireNonNull(grid);
-		this.grid = new Field[GRID_DIM][GRID_DIM];
-		// to ensure private accessibility, we deep-copy grid
+		// ensuring that altering grid does not alter this.grid
+		this.grid = initialiseGrid(grid);
+	}
+	
+	private static Field[][] deepCopyGrid(Field[][] grid) {
+		Field[][] newGrid = new Field[GRID_DIM][GRID_DIM];
 		for(int i = 0; i < grid.length; i++) {
 			for(int j = 0; j < grid[i].length; j++) {
-				/* @vsee this deep-copy process makes initialiseGrid
-				 * redundant when using this constructor
-				 */
-				this.grid[i][j] = new Field(
+				newGrid[i][j] = new Field(
 						grid[i][j].getValue(),
 						grid[i][j].isInitial());
 			}
 		}
+		return newGrid;
 	}
 	
 	/**
@@ -76,10 +85,10 @@ public class GameGrid {
 	 * @param column: cell's column
 	 * @return: the value in the grid
 	 */
-	public int getField(int row, int column) {
+	public Field getField(int row, int column) {
 		if(invalidParameter(row) || invalidParameter(column))
 			throw new IllegalArgumentException("row/column out of legal bounds");
-		return this.grid[row][column].getValue();
+		return this.grid[row][column];
 	}
 	
 	/**

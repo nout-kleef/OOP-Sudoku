@@ -123,6 +123,19 @@ public class Sudoku01 {
 			System.out.println(game);
 			return false;
 		case 4:
+			/* NOTE: calling GameGrid(Field[][]) delegates deep-copying
+			 * to that constructor, so we don't worry about that here
+			 */
+			GameGrid solutionGame = new GameGrid(game);
+			if(Solver.solve(solutionGame)) {
+				// TODO: print solved game
+				// TODO: debug to check if deep-copying implemented correctly
+			} else {
+				System.out.println("No solution was found for this sudoku.\n"
+						+ "Please try again using a different sudoku grid.");
+			}
+			return false;
+		case 5:
 			System.out.println("Exiting..");
 			return true;
 		default:

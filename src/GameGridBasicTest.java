@@ -25,6 +25,18 @@ public class GameGridBasicTest {
     }
 
     @Test
+    public void gameGridCpyCtorTest() {
+        GameGrid game = new GameGrid(grid);
+        GameGrid gameCpy = new GameGrid(game);
+    }
+
+    @Test
+    public void isInitialTest() {
+       GameGrid game = new GameGrid(grid);
+       boolean result = game.isInitial(0,0);
+    }
+
+    @Test
     public void getFieldTest() {
        GameGrid game = new GameGrid(grid);
        int result = game.getField(0,0);
