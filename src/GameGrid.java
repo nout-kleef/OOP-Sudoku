@@ -24,6 +24,9 @@ public class GameGrid {
 		// to ensure private accessibility, we deep-copy grid
 		for(int i = 0; i < grid.length; i++) {
 			for(int j = 0; j < grid[i].length; j++) {
+				/* @vsee this deep-copy process makes initialiseGrid
+				 * redundant when using this constructor
+				 */
 				this.grid[i][j] = new Field(
 						grid[i][j].getValue(),
 						grid[i][j].isInitial());
@@ -37,7 +40,7 @@ public class GameGrid {
 	 */
 	public GameGrid(String path) {
 		Objects.requireNonNull(path);
-		final Field[][] FIELD_GRID = intToField(IOUtils.loadFromFile(path));
+		final Field[][] FIELD_GRID = initialiseGrid(IOUtils.loadFromFile(path));
 		this.grid = FIELD_GRID;
 	}
 	
@@ -46,7 +49,7 @@ public class GameGrid {
 	 * @param grid: the original int[][] grid
 	 * @return the Field[][] representation
 	 */
-	private static Field[][] intToField(int[][] grid) {
+	private static Field[][] initialiseGrid(int[][] grid) {
 		Field[][] newGrid = new Field[GRID_DIM][GRID_DIM];
 		for(int i = 0; i < grid.length; i++) {
 			for(int j = 0; j < grid[i].length; j++) {
@@ -89,8 +92,10 @@ public class GameGrid {
 	public boolean setField(int row, int column, int val) {
 		if(invalidParameter(row) || invalidParameter(column) || invalidParameter(val))
 			throw new IllegalArgumentException("row/column/value out of legal bounds");
-		
-		if(this.isValid(row, column, val)) {
+		/* proceed to update if val is valid in this position
+		 * AND we're not updating a clue field
+		 */
+		if(this.isValid(row, column, val) && !isInitial(row, column)) {
 			this.grid[row][column].setValue(val);
 			return true;
 		}
@@ -158,6 +163,12 @@ public class GameGrid {
 			}
 		}
     	return representation;
+    }
+    
+    public boolean isInitial(int row, int column) {
+    	if(invalidParameter(row) || invalidParameter(column))
+			throw new IllegalArgumentException("row/column out of legal bounds");
+    	return grid[row][column].isInitial();
     }
 	
 	/**
