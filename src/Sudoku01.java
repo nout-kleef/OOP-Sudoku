@@ -2,19 +2,25 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Sudoku01 {
-
+	final static String[] MENU_OPTIONS = 
+		{
+				"Set field",
+				"Clear field",
+				"Print game",
+				"Solve sudoku",
+				"Exit"
+		};
+	
     /**
      * use the console to show the game menu to the user
      * @param max: amount of options
      */
-    public static void printMenu(int max) {
-        System.out.print("\n-*-*-*-*-*-*-*-*-\n" +
-                "1. Set field\n" +
-                "2. Clear field\n" +
-                "3. Print game\n" +
-                "4. Exit\n\n" +
-                "Select an action [1-" + max + "]: ");
-        // TODO: implement max in a better way
+    public static void printMenu() {
+        System.out.print("\n- - - - - - - - - -\n");
+        for(int i = 0; i < MENU_OPTIONS.length; i++) {
+        	System.out.println((i + 1) + ") " + MENU_OPTIONS[i]);
+        }
+        System.out.println("Select an action [1-" + MENU_OPTIONS.length + "]: ");
     }   
 
     /**
@@ -40,9 +46,9 @@ public class Sudoku01 {
      * this method requests user input and adjusts program behaviour based upon this
      * @return whether the user chose to exit the program/game
      */
-    public static int gameLoop(int min, int max) {
-    	Sudoku01.printMenu(max);
-    	return Sudoku01.requestInt("your chosen menu option", min, max);
+    public static int gameLoop() {
+    	Sudoku01.printMenu();
+    	return Sudoku01.requestInt("your chosen menu option", 1, MENU_OPTIONS.length);
     }
 
     /**
@@ -143,7 +149,7 @@ public class Sudoku01 {
     			
         boolean userExit = false;
         while(!userExit) {
-        	final int userChoice = gameLoop(1, 4); // hardcoded min and max. tolerated since the menu itself is also hardcoded
+        	final int userChoice = gameLoop(); // hardcoded min and max. tolerated since the menu itself is also hardcoded
         	// handle the choice the user made
         	userExit = Sudoku01.handleChoice(userChoice, game);
         }
