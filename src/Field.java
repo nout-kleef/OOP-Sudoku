@@ -1,6 +1,7 @@
 
 public class Field {
-	final private static String IS_INITIAL_INDICATOR = "'";
+	private final static String IS_INITIAL_INDICATOR = "'";
+	private final static String NOT_INITIAL_INDICATOR = " ";
 	private int value;
 	final private boolean initial;
 	
@@ -15,7 +16,7 @@ public class Field {
 	}
 	
 	public String toString() {
-		return initial ? value + IS_INITIAL_INDICATOR : value + "";
+		return initial ? value + IS_INITIAL_INDICATOR : value + NOT_INITIAL_INDICATOR;
 	}
 
 	public int getValue() {

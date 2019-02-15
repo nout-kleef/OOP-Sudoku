@@ -6,8 +6,14 @@ public class Solver {
 			// col incrementation is taken care of manually, not in loop header
 			for(int col = 0; col < GameGrid.GRID_DIM;) {
 				Field current = game.grid[row][col];
-				if(current.isInitial())
+				if(current.isInitial()) {
+					if(row == col && row == MAX_INDEX) {
+						// end reached on a fixed cell: solution found
+						return true;
+					}
+					col++;
 					continue;
+				}
 				/* not a set value: we can try values for this field.
 				 * we shouldn't start at the empty value for this field,
 				 * but rather at the current value + 1
@@ -18,7 +24,9 @@ public class Solver {
 				boolean valueFound = false;
 				for(int val = current.getValue() + 1; val < GameGrid.MAX_VAL; val++) {
 					if(game.setField(row, col, val)) {
-						 // legal value found
+						// DEBUG
+						System.out.println(game);
+						// legal value found
 						valueFound = true;
 						break;
 					}

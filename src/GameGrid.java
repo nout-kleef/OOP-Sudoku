@@ -85,10 +85,10 @@ public class GameGrid {
 	 * @param column: cell's column
 	 * @return: the value in the grid
 	 */
-	public Field getField(int row, int column) {
+	public int getField(int row, int column) {
 		if(invalidParameter(row) || invalidParameter(column))
 			throw new IllegalArgumentException("row/column out of legal bounds");
-		return this.grid[row][column];
+		return this.grid[row][column].getValue();
 	}
 	
 	/**
