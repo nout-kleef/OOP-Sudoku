@@ -20,8 +20,15 @@ public class GameGrid {
 	 */
 	public GameGrid(Field[][] grid) {
 		Objects.requireNonNull(grid);
-		// TODO: deep-copy grid from parameter to member
-		this.grid = grid;
+		this.grid = new Field[GRID_DIM][GRID_DIM];
+		// to ensure private accessibility, we deep-copy grid
+		for(int i = 0; i < grid.length; i++) {
+			for(int j = 0; j < grid[i].length; j++) {
+				this.grid[i][j] = new Field(
+						grid[i][j].getValue(),
+						grid[i][j].isInitial());
+			}
+		}
 	}
 	
 	/**
