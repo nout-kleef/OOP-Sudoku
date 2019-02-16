@@ -1,6 +1,6 @@
 
 public class Solver {
-	final static boolean DEBUG = true;
+	final static boolean DEBUG = false;
 	
 	/**
 	 * <h2>Backtracking algorithm v2.0</h2>

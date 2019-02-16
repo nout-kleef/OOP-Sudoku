@@ -1,7 +1,13 @@
+import java.io.File;
+import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+import jdk.nashorn.internal.runtime.linker.JavaAdapterFactory;
+
 public class Sudoku01 {
+	final static File GAMES_FOLDER = new File(System.getProperty("user.dir") +
+			"\\games\\");
 	final static String[] MENU_OPTIONS = 
 		{
 				"Set field",
@@ -143,19 +149,54 @@ public class Sudoku01 {
 		}
     }
     
+    private static File[] listFilesForFolder(final File folder) {
+    	final File[] FILE_LIST = folder.listFiles();
+    	ArrayList<File> results = new ArrayList<File>();
+    	for(int i = 0; i < FILE_LIST.length; i++) {
+    		final File current = FILE_LIST[i];
+    		if(current.isDirectory())
+    			continue; // disregard nested directories
+    		else
+    			results.add(current);
+    	}
+    	return results.toArray(new File[0]);
+    }
+    
     public static void main(String[] args) {
     	java.util.Objects.requireNonNull(args);
     	if(args.length == 0)
     		throw new IllegalArgumentException("no args specified");
-    	// use this as the path to the file holding the int[][] grid
-    	/* NOTE - PATH should be an absolute path that works for the file system
-    	 * on which this class is located.
-    	 * unfortunately it's not possible to allow for spaces in this path,
-    	 * as this would split up the path into multiple args elements
-    	 * example: C:\\Users\\[user]\\folder\\file.sd
-    	 */
-    	final String PATH = args[0];
-    	
+    	final String PATH;
+    	if(args[0].equals("--interactive")) {
+    		/* assume that a "games" dir exists in the project dir.
+    		 * let the user pick any sudoku from this directory (non-recursive)
+    		 */
+    		final File[] OPTIONS = listFilesForFolder(GAMES_FOLDER);
+    		// request puzzle
+    		System.out.println("You've initiated this program in interactive "
+    				+ "mode.\nPlease pick the desired puzzle by entering "
+    				+ "the file's index:");
+    		for(int i = 0; i < OPTIONS.length; i++) {
+    			final String OPTION = OPTIONS[i].toString();
+    			final int REDUNDANT_ENDS_INDEX = OPTION.lastIndexOf('\\');
+    			final String READABLE = OPTION.substring(REDUNDANT_ENDS_INDEX + 1);
+    			System.out.println("\t" + (i + 1) + ") \t" + READABLE);
+    		}
+    		final int PUZZLE_INDEX = 
+    				requestInt("the file's index", 1, OPTIONS.length) - 1;
+    		// set up using chosen file
+    		PATH = OPTIONS[PUZZLE_INDEX].toString();
+    	} else {
+    		/* assume args[0] is the path for the sudoku file
+	    	 * use this as the path to the file holding the int[][] grid
+	    	 * NOTE - PATH should be an absolute path that works for the file 
+	    	 * system on which this class is located.
+	    	 * unfortunately it's not possible to allow for spaces in this path,
+	    	 * as this would split up the path into multiple args elements
+	    	 * example: C:\\Users\\[user]\\folder\\file.sd
+	    	 */
+	    	PATH = args[0];
+    	}
     	// initialise game
     	GameGrid game = new GameGrid(PATH);
     	System.out.println(game);
