@@ -51,12 +51,21 @@ public class Solver {
 				boolean legalValueFound = false;
 				for(int val = START; val <= GameGrid.GRID_DIM; val++) {
 					if(game.setField(ROW, COL, val)) {
+						if(DEBUG) {
+							System.out.printf("grid after updating row %s "
+									+ "and column %s\n", ROW, COL);
+							System.out.println(game);
+						}
 						legalValueFound = true;
 						break;
 					}
 				}
-				// if we were unable to find a legal value, we must backtrack
+				/* if we were unable to find a legal value, we must backtrack
+				 * and reset this non-clue cell to its empty value
+				 */
 				movingForward = legalValueFound;
+				if(!legalValueFound)
+					game.grid[ROW][COL].setValue(GameGrid.EMPTY_VAL);
 				if(!pointer.move(movingForward)) {
 					// can't move AND COL == 0? no solution.
 					return COL != 0;
@@ -67,7 +76,7 @@ public class Solver {
 		return true;
 	}
 	
-	public static boolean solve(GameGrid game) {
+	private static boolean solve(GameGrid game) {
 		final int MAX_INDEX = GameGrid.GRID_DIM - 1;
 		boolean backtracking = false;
 		for(int row = 0; row < GameGrid.GRID_DIM;) {

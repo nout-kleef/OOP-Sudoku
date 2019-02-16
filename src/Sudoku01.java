@@ -127,7 +127,7 @@ public class Sudoku01 {
 			 * to that constructor, so we don't worry about that here
 			 */
 			GameGrid solutionGame = new GameGrid(game);
-			if(Solver.solve(solutionGame)) {
+			if(Solver.solveV2(solutionGame)) {
 				System.out.println("\nA solution was found: ");
 				System.out.println(solutionGame);
 			} else {
