@@ -75,8 +75,9 @@ public class GameGrid {
 	 * @param p: value we're checking
 	 * @return: true if p is out of bounds
 	 */
-	private boolean invalidParameter(int p) {
-		return p < 0 || p >= GameGrid.GRID_DIM;
+	private boolean invalidParameter(int p, boolean zeroIndexed) {
+		final int NEW_P = zeroIndexed ? p : p - 1;
+		return NEW_P < 0 || NEW_P >= GameGrid.GRID_DIM;
 	}
 	
 	/**
@@ -86,7 +87,7 @@ public class GameGrid {
 	 * @return: the value in the grid
 	 */
 	public int getField(int row, int column) {
-		if(invalidParameter(row) || invalidParameter(column))
+		if(invalidParameter(row, true) || invalidParameter(column, true))
 			throw new IllegalArgumentException("row/column out of legal bounds");
 		return this.grid[row][column].getValue();
 	}
@@ -99,7 +100,7 @@ public class GameGrid {
 	 * @return: true if the cell was updated
 	 */
 	public boolean setField(int row, int column, int val) {
-		if(invalidParameter(row) || invalidParameter(column) || invalidParameter(val))
+		if(invalidParameter(row, true) || invalidParameter(column, true) || invalidParameter(val, false))
 			throw new IllegalArgumentException("row/column/value out of legal bounds");
 		/* proceed to update if val is valid in this position
 		 * AND we're not updating a clue field
@@ -117,7 +118,7 @@ public class GameGrid {
 	 * @param column: column of the cell to be reset
 	 */
 	public void clearField(int row, int column) {
-		if(invalidParameter(row) || invalidParameter(column))
+		if(invalidParameter(row, true) || invalidParameter(column, true))
 			throw new IllegalArgumentException("row/column out of legal bounds");
 		
 		this.grid[row][column].setValue(GameGrid.EMPTY_VAL);
@@ -175,7 +176,7 @@ public class GameGrid {
     }
     
     public boolean isInitial(int row, int column) {
-    	if(invalidParameter(row) || invalidParameter(column))
+    	if(invalidParameter(row, true) || invalidParameter(column, true))
 			throw new IllegalArgumentException("row/column out of legal bounds");
     	return grid[row][column].isInitial();
     }

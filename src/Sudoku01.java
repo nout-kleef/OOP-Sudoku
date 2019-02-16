@@ -128,8 +128,8 @@ public class Sudoku01 {
 			 */
 			GameGrid solutionGame = new GameGrid(game);
 			if(Solver.solve(solutionGame)) {
-				// TODO: print solved game
-				// TODO: debug to check if deep-copying implemented correctly
+				System.out.println("\nA solution was found: ");
+				System.out.println(solutionGame);
 			} else {
 				System.out.println("No solution was found for this sudoku.\n"
 						+ "Please try again using a different sudoku grid.");
