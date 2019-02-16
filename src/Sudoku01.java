@@ -6,8 +6,9 @@ import java.util.Scanner;
 import jdk.nashorn.internal.runtime.linker.JavaAdapterFactory;
 
 public class Sudoku01 {
+	final static String SEP = System.getProperty("file.separator");
 	final static File GAMES_FOLDER = new File(System.getProperty("user.dir") +
-			"\\games\\");
+			SEP + "games" + SEP);
 	final static String[] MENU_OPTIONS = 
 		{
 				"Set field",
@@ -178,7 +179,7 @@ public class Sudoku01 {
     				+ "the file's index:");
     		for(int i = 0; i < OPTIONS.length; i++) {
     			final String OPTION = OPTIONS[i].toString();
-    			final int REDUNDANT_ENDS_INDEX = OPTION.lastIndexOf('\\');
+    			final int REDUNDANT_ENDS_INDEX = OPTION.lastIndexOf(SEP);
     			final String READABLE = OPTION.substring(REDUNDANT_ENDS_INDEX + 1);
     			System.out.println("\t" + (i + 1) + ") \t" + READABLE);
     		}
