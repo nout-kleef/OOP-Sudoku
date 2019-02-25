@@ -1,3 +1,4 @@
+package sudoku;
 /**
  * exists to move around cells more easily
  * @author noutk

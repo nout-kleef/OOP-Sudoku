@@ -1,3 +1,5 @@
+package sudoku;
+
 import org.junit.Test;
 
 public class Sudoku01BasicTest {

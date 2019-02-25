@@ -1,9 +1,10 @@
+package sudoku;
 
 public class Field {
 	private final static String IS_INITIAL_INDICATOR = "'";
 	private final static String NOT_INITIAL_INDICATOR = " ";
 	private int value;
-	final private boolean initial;
+	private final boolean initial;
 	
 	public Field() {
 		this.initial = false;
@@ -16,7 +17,8 @@ public class Field {
 	}
 	
 	public String toString() {
-		return initial ? value + IS_INITIAL_INDICATOR : value + NOT_INITIAL_INDICATOR;
+		return initial ? 
+				value + IS_INITIAL_INDICATOR : value + NOT_INITIAL_INDICATOR;
 	}
 
 	public int getValue() {

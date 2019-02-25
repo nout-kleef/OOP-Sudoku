@@ -1,3 +1,4 @@
+package sudoku;
 
 public class Solver {
 	final static boolean DEBUG = false;
@@ -31,9 +32,7 @@ public class Solver {
 		while(!endReached) {
 			final int ROW = pointer.getRow();
 			final int COL = pointer.getCol();
-			/*if(ROW == MAX_INDEX && ROW == MAX_INDEX) {
-				endReached = true;
-			} else */if(game.grid[ROW][COL].isInitial()) {
+			if(game.grid[ROW][COL].isInitial()) {
 				/* this cell contains a clue, so we should move away
 				 * in the current direction
 				 */

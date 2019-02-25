@@ -1,4 +1,6 @@
+package utils;
 import java.nio.file.Files;
+
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -8,6 +10,8 @@ import java.io.UncheckedIOException;
 import java.io.IOException;
 
 import java.util.Objects;
+
+import sudoku.GameGrid;
 
 public class IOUtils {
 
