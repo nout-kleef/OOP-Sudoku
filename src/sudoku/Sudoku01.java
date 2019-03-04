@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-import jdk.nashorn.internal.runtime.linker.JavaAdapterFactory;
+//import jdk.nashorn.internal.runtime.linker.JavaAdapterFactory;
 
 public class Sudoku01 {
 	final static String SEP = System.getProperty("file.separator");
@@ -16,6 +16,7 @@ public class Sudoku01 {
 				"Clear field",
 				"Print game",
 				"Solve sudoku",
+				"Print sudoku string",
 				"Exit"
 		};
 	
@@ -67,7 +68,7 @@ public class Sudoku01 {
      * is not an integer or not within min and max bounds.
      *
      * @param msg: a name for the requested data.
-     * @param min: minium accepted integer.
+     * @param min: minimum accepted integer.
      * @param max: maximum accepted integer.
      * @return The user's input as integer.
      */
@@ -135,15 +136,30 @@ public class Sudoku01 {
 			 * to that constructor, so we don't worry about that here
 			 */
 			GameGrid solutionGame = new GameGrid(game);
-			if(Solver.solve(solutionGame)) {
-				System.out.println("\nA solution was found: ");
-				System.out.println(solutionGame);
-			} else {
+			ArrayList<GameGrid> solutions = Solver.findAllSolutions(solutionGame);
+			if(solutions.size() == 0) {
 				System.out.println("No solution was found for this sudoku.\n"
 						+ "Please try again using a different sudoku grid.");
+			} else if(solutions.size() == 1) {
+				System.out.println("\nA single solution was found: ");
+				System.out.println(solutions.get(0));
+			} else {
+				System.out.println("\nMultiple solutions were found: ");
+				for(int i = 0; i < solutions.size(); i++) {
+					System.out.printf("-----\nSolution #%s\n", i + 1);
+					System.out.println(solutions.get(i));
+				}
+			}
+			if(Solver.solve(solutionGame, false)) {
+				
+			} else {
+				
 			}
 			return false;
 		case 5:
+			game.printSudokuString();
+			return false;
+		case 6:
 			System.out.println("Exiting..");
 			return true;
 		default:

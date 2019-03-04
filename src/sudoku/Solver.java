@@ -1,7 +1,24 @@
 package sudoku;
 
+import java.util.ArrayList;
+
 public class Solver {
 	final static boolean DEBUG = false;
+	
+	public static ArrayList<GameGrid> findAllSolutions(GameGrid game) {
+		ArrayList<GameGrid> solutions = new ArrayList<GameGrid>();
+		// create a deep-copy
+		GameGrid copy = new GameGrid(game);
+		boolean solutionsExhausted = !solve(copy, false);
+		while(!solutionsExhausted) {
+			if(!solutionsExhausted) {
+				// add a deep-copy of the new solution
+				solutions.add(new GameGrid(copy));
+			}
+			solutionsExhausted = !solve(copy, true);
+		}
+		return solutions;
+	}
 	
 	/**
 	 * <h2>Backtracking algorithm v2.0</h2>
@@ -21,14 +38,24 @@ public class Solver {
 	 * 				else continue from I onwards
 	 * 
 	 * @param game: GameGrid that we will attempt to solve (pass by reference)
+	 * @param continueSearch: true if we want to continue after having already
+	 * 	found one or more solutions
 	 * @return true if a solution is found
 	 */
-	public static boolean solve(GameGrid game) {
+	public static boolean solve(GameGrid game, boolean continueSearch) {
 		// to ease movement I implemented a wrapper
-		final CellIndexWrapper pointer = 
-				new CellIndexWrapper(0, 0, GameGrid.GRID_DIM);
+		final CellIndexWrapper pointer;
+		if(continueSearch) {
+			pointer = new CellIndexWrapper(
+							GameGrid.GRID_DIM - 1,
+							GameGrid.GRID_DIM - 1,
+							GameGrid.GRID_DIM
+							);
+		} else {
+			pointer = new CellIndexWrapper(0, 0, GameGrid.GRID_DIM);
+		}
 		boolean endReached = false;
-		boolean movingForward = true; // == "not backtracking"
+		boolean movingForward = !continueSearch; // == "not backtracking"
 		while(!endReached) {
 			final int ROW = pointer.getRow();
 			final int COL = pointer.getCol();
@@ -62,8 +89,14 @@ public class Solver {
 				 * and reset this non-clue cell to its empty value
 				 */
 				movingForward = legalValueFound;
-				if(!legalValueFound)
+				if(!legalValueFound) {
 					game.grid[ROW][COL].setValue(GameGrid.EMPTY_VAL);
+					if(DEBUG) {
+						System.out.printf("grid after updating row %s "
+								+ "and column %s\n", ROW, COL);
+						System.out.println(game);
+					}
+				}
 				if(!pointer.move(movingForward)) {
 					// can't move AND COL == 0? no solution.
 					return COL != 0;

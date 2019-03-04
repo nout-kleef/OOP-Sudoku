@@ -18,7 +18,7 @@ public class Sudoku01BasicTest {
             {4,3,0,5,0,9,0,1,2}
         };
 
-        Sudoku01.printGrid(grid);
+//        Sudoku01.printGrid(grid);
     }
 
 }

@@ -241,6 +241,17 @@ public class GameGrid {
     	return true;
     }
     
+    public void printSudokuString() {
+    	System.out.println("Sudoku string for this GameGrid:");
+    	for(int i = 0; i < GRID_DIM; i++) {
+    		for(int j = 0; j < GRID_DIM; j++) {
+    			final int VAL = grid[i][j].getValue();
+    			System.out.print(VAL == EMPTY_VAL ? "." : VAL);
+    		}
+    	}
+    	System.out.println("");
+    }
+    
     /**
      * check whether a value is valid in a cell
      * @param row: the row we're checking
