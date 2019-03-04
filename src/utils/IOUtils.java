@@ -7,13 +7,38 @@ import java.nio.file.Paths;
 import java.util.Scanner;
 
 import java.io.UncheckedIOException;
+import java.io.File;
 import java.io.IOException;
-
+import java.util.HashMap;
 import java.util.Objects;
 
 import sudoku.GameGrid;
 
 public class IOUtils {
+	
+	private static final boolean DEBUG = true;
+	
+	public static HashMap<String, GameGrid> loadFromFolder(String dir) {
+		File path = new File(dir);
+		HashMap<String, GameGrid> filesToGames = new HashMap<String, GameGrid>();
+		final String[] FILES = path.list();
+		try {
+			Objects.requireNonNull(FILES);
+		} catch(NullPointerException e) {
+			// path.list() returns null if path does not point to a directory
+			if(DEBUG)
+				System.out.println("No directory found.");
+			return filesToGames;
+		}
+		for(String file: FILES) {
+			if(!file.endsWith(".sd") || file.contains("unsolvable"))
+				continue;
+			final String FILE_PATH = dir + file;
+			// add the mapping
+			filesToGames.put(FILE_PATH, new GameGrid(FILE_PATH));
+		}
+		return filesToGames;
+	}
 
     /**
      * This function loads a Sudoku game grid from a file.

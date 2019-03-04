@@ -1,15 +1,19 @@
 package sudoku;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.InputMismatchException;
 import java.util.Scanner;
+
+import utils.IOUtils;
 
 //import jdk.nashorn.internal.runtime.linker.JavaAdapterFactory;
 
 public class Sudoku01 {
 	final static String SEP = System.getProperty("file.separator");
-	final static File GAMES_FOLDER = new File(System.getProperty("user.dir") +
-			SEP + "games" + SEP);
+	final static String GAMES_FOLDER_STRING = System.getProperty("user.dir") +
+			SEP + "games" + SEP;
+	final static File GAMES_FOLDER = new File(GAMES_FOLDER_STRING);
 	final static String[] MENU_OPTIONS = 
 		{
 				"Set field",
@@ -203,6 +207,18 @@ public class Sudoku01 {
     				requestInt("the file's index", 1, OPTIONS.length) - 1;
     		// set up using chosen file
     		PATH = OPTIONS[PUZZLE_INDEX].toString();
+    	} else if(args[0].equals("--folder")) {
+    		HashMap<String, GameGrid> filesToGames = IOUtils.loadFromFolder(GAMES_FOLDER_STRING);
+    		System.out.println("Calculating ranks for all eligible sudokus in "
+    				+ "the games folder..");
+    		for(String file : filesToGames.keySet()) {
+    			final float RANK = Ranker.rankSudoku(filesToGames.get(file));
+    			final int SUBSTRING_INDEX = file.lastIndexOf(SEP);
+    			final String SUDOKU_NAME = file.substring(SUBSTRING_INDEX);
+    			System.out.printf("Sudoku: %s,\trank: %f\n", SUDOKU_NAME, RANK);
+//    			System.out.println(file);
+    		}
+    		return;
     	} else {
     		/* assume args[0] is the path for the sudoku file
 	    	 * use this as the path to the file holding the int[][] grid
