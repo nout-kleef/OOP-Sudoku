@@ -252,14 +252,11 @@ public class GameGrid {
     	System.out.println("");
     }
     
-    public float getClueFields() {
+    public float getFreeFields() {
     	float sum = 0;
-    	for(int i = 0; i < GRID_DIM; i++) {
-    		for(int j = 0; j < GRID_DIM; j++) {
-    			if(grid[i][j].isInitial())
-    				sum++;
-    		}
-    	}
+    	for(int i = 0; i < GRID_DIM; i++)
+    		for(int j = 0; j < GRID_DIM; j++)
+    			if(!grid[i][j].isInitial()) sum++;
     	return sum;
     }
     
