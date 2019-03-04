@@ -17,6 +17,7 @@ public class Sudoku01 {
 				"Print game",
 				"Solve sudoku",
 				"Print sudoku string",
+				"Print sudoku rank",
 				"Exit"
 		};
 	
@@ -150,16 +151,14 @@ public class Sudoku01 {
 					System.out.println(solutions.get(i));
 				}
 			}
-			if(Solver.solve(solutionGame, false)) {
-				
-			} else {
-				
-			}
 			return false;
 		case 5:
 			game.printSudokuString();
 			return false;
 		case 6:
+			System.out.printf("This sudoku's rank is: %f\n", Ranker.rankSudoku(game));
+			return false;
+		case 7:
 			System.out.println("Exiting..");
 			return true;
 		default:

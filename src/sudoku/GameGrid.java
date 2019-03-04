@@ -252,6 +252,17 @@ public class GameGrid {
     	System.out.println("");
     }
     
+    public float getClueFields() {
+    	float sum = 0;
+    	for(int i = 0; i < GRID_DIM; i++) {
+    		for(int j = 0; j < GRID_DIM; j++) {
+    			if(grid[i][j].isInitial())
+    				sum++;
+    		}
+    	}
+    	return sum;
+    }
+    
     /**
      * check whether a value is valid in a cell
      * @param row: the row we're checking
