@@ -1,7 +1,7 @@
 package sudoku.game;
 import java.util.Objects;
 
-public class GameGrid {
+public abstract class GameGrid {
 	// protected to allow for a quick copy before solving
 	protected final Field[][] grid;
 	// Constants for coordinate boundaries and Sudoku numbers

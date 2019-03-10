@@ -16,8 +16,6 @@ import java.util.Objects;
 
 public class IOUtils {
 	
-	private static final boolean DEBUG = true;
-	
 	public static HashMap<String, GameGrid> loadFromFolder(String dir) throws Exception {
 		File path = new File(dir);
 		HashMap<String, GameGrid> filesToGames = new HashMap<String, GameGrid>();
