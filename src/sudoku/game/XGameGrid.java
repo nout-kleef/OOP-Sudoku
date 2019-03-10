@@ -104,7 +104,8 @@ public final class XGameGrid extends GameGrid {
 		return true;
 	}
 	
-	private boolean isValid(int row, int column, int val) {
+	@Override
+	protected boolean isValid(int row, int column, int val) {
     	return this.checkRow(row, val) &&
     			this.checkColumn(column, val) &&
     			this.checkSubGrid(row, column, val) &&

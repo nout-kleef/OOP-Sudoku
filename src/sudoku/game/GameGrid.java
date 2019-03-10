@@ -11,8 +11,8 @@ public abstract class GameGrid {
 	public static final int MIN_VAL = 1;
 	public static final int EMPTY_VAL = 0;
 	// formatting
-	protected static final String HORIZONTAL_CELL_PADDING = " ";
-	protected static final String HORIZONTAL_BLOCK_PADDING = "  ";
+	protected static final String HORIZONTAL_CELL_PADDING = "  ";
+	protected static final String HORIZONTAL_BLOCK_PADDING = "   ";
 	protected static final String VERTICAL_CELL_PADDING = "";
 	protected static final String VERTICAL_BLOCK_PADDING = "\n";
 	
@@ -260,16 +260,5 @@ public abstract class GameGrid {
     	return sum;
     }
     
-    /**
-     * check whether a value is valid in a cell
-     * @param row: the row we're checking
-     * @param column: the column we're checking
-     * @param val: the desired value
-     * @return: true if value is allowed
-     */
-    private boolean isValid(int row, int column, int val) {
-    	return this.checkRow(row, val) &&
-    			this.checkColumn(column, val) &&
-    			this.checkSubGrid(row, column, val);
-    }
+    abstract protected boolean isValid(int row, int column, int val);
 }

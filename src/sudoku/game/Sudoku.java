@@ -25,6 +25,11 @@ public class Sudoku {
 				"Print sudoku rank",
 				"Exit"
 		};
+	final static String[] SUDOKU_TYPES = 
+		{
+				"Regular Sudoku",
+				"X Sudoku"
+		};
 	
     /**
      * use the console to show the game menu to the user
@@ -32,11 +37,17 @@ public class Sudoku {
      */
     public static void printMenu() {
         System.out.print("\n- - - - - - - - - -\n");
-        for(int i = 0; i < MENU_OPTIONS.length; i++) {
+        for(int i = 0; i < MENU_OPTIONS.length; i++)
         	System.out.println((i + 1) + ") " + MENU_OPTIONS[i]);
-        }
-        System.out.println("Select an action [1-" + MENU_OPTIONS.length + "]: ");
-    }   
+        System.out.printf("Select an action [1-%s]: \n", MENU_OPTIONS.length);
+    }
+    
+    public static void printSudokuTypeSelection() {
+    	System.out.println("Select game mode:");
+    	for (int i = 0; i < SUDOKU_TYPES.length; i++)
+			System.out.println((i + 1) + ") " + SUDOKU_TYPES[i]);
+    	System.out.printf("Select an action [1-%s]\n", SUDOKU_TYPES.length);
+    }
 
     /**
      * Read a single integer value from the console and return it.
@@ -62,8 +73,13 @@ public class Sudoku {
      * @return whether the user chose to exit the program/game
      */
     public static int gameLoop() {
-    	Sudoku.printMenu();
-    	return Sudoku.requestInt("your chosen menu option", 1, MENU_OPTIONS.length);
+    	printMenu();
+    	return requestInt("your chosen menu option", 1, MENU_OPTIONS.length);
+    }
+    
+    public static int preGameMenu() {
+    	printSudokuTypeSelection();
+    	return requestInt("your chosen meny option", 1, SUDOKU_TYPES.length);
     }
 
     /**
@@ -101,15 +117,15 @@ public class Sudoku {
     	java.util.Objects.requireNonNull(game);
     	final int MAX = GameGrid.MAX_VAL;
     	final String range = "(1-" + MAX + ")";
-    	final int i = Sudoku.requestInt("a row number " + range, 1, MAX) - 1; // -1 for 0-indexing
-    	final int j = Sudoku.requestInt("a column number " + range, 1, MAX) - 1; // -1 for 0-indexing
+    	final int i = requestInt("a row number " + range, 1, MAX) - 1; // -1 for 0-indexing
+    	final int j = requestInt("a column number " + range, 1, MAX) - 1; // -1 for 0-indexing
     	int val = GameGrid.EMPTY_VAL;
     	if(clear) {
     		game.clearField(i, j);
     	} else {
     		boolean valid = true;
     		do {
-    			val = Sudoku.requestInt("the desired value for the cell in row: " +
+    			val = requestInt("the desired value for the cell in row: " +
     							(i + 1) + ", column: " + (j + 1) + " " + range, 1, MAX);
     			valid = game.setField(i, j, val);
     			if(!valid)
@@ -129,10 +145,10 @@ public class Sudoku {
     	java.util.Objects.requireNonNull(game);
     	switch (userChoice) {
 		case 1:
-			Sudoku.setField(game, false);
+			setField(game, false);
 			return false;
 		case 2:
-			Sudoku.setField(game, true);
+			setField(game, true);
 			return false;
 		case 3:
 			System.out.println(game);
@@ -141,7 +157,7 @@ public class Sudoku {
 			/* NOTE: calling GameGrid(Field[][]) delegates deep-copying
 			 * to that constructor, so we don't worry about that here
 			 */
-			GameGrid solutionGame = Sudoku.copyGameGrid(game);
+			GameGrid solutionGame = copyGameGrid(game);
 			ArrayList<GameGrid> solutions = Solver.findAllSolutions(solutionGame);
 			if(solutions.size() == 0) {
 				System.out.println("No solution was found for this sudoku.\n"
@@ -186,13 +202,14 @@ public class Sudoku {
     
     public static void main(String[] args) {
     	java.util.Objects.requireNonNull(args);
+		final int TYPE = preGameMenu(); // 1: regular, 2: X
     	if(args.length == 0)
     		throw new IllegalArgumentException("no args specified");
     	final String PATH;
     	if(args[0].equals("--interactive")) {
     		PATH = new SudokuGame(args).getPath();
     	} else if(args[0].equals("--folder")) {
-    		new RankerRun(args);
+    		new RankerRun(args, TYPE);
     		return;
     	} else {
     		/* assume args[0] is the path for the sudoku file
@@ -205,15 +222,15 @@ public class Sudoku {
 	    	 */
 	    	PATH = args[0];
     	}
-    	// initialise game
-    	GameGrid game = Sudoku.copyGameGrid(PATH);
+    	// initialise game (1: regular sudoku, 2: X sudoku
+    	GameGrid game = TYPE == 2 ? new XGameGrid(PATH) : new RGameGrid(PATH);
     	System.out.println(game);
     			
         boolean userExit = false;
         while(!userExit) {
         	final int userChoice = gameLoop();
         	// handle the choice the user made
-        	userExit = Sudoku.handleChoice(userChoice, game);
+        	userExit = handleChoice(userChoice, game);
         }
     }
     

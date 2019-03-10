@@ -7,10 +7,10 @@ import sudoku.game.Ranker;
 import sudoku.game.Sudoku;
 
 public class RankerRun {
-	public RankerRun(String[] args) {
+	public RankerRun(String[] args, final int SUDOKU_TYPE) {
 		HashMap<String, GameGrid> filesToGames;
 		try {
-			filesToGames = IOUtils.loadFromFolder(Sudoku.getGamesFolderString());
+			filesToGames = IOUtils.loadFromFolder(Sudoku.getGamesFolderString(), SUDOKU_TYPE);
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("Invalid folder specified. Terminating..");

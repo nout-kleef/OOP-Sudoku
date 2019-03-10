@@ -8,6 +8,7 @@ import java.util.Scanner;
 
 import sudoku.game.GameGrid;
 import sudoku.game.RGameGrid;
+import sudoku.game.XGameGrid;
 
 import java.io.UncheckedIOException;
 import java.io.File;
@@ -17,11 +18,12 @@ import java.util.Objects;
 
 public class IOUtils {
 	
-	public static HashMap<String, GameGrid> loadFromFolder(String dir) throws Exception {
+	public static HashMap<String, GameGrid> loadFromFolder(String dir, final int SUDOKU_TYPE) throws Exception {
 		File path = new File(dir);
 		HashMap<String, GameGrid> filesToGames = new HashMap<String, GameGrid>();
 		
-		if(!path.exists() || !path.isDirectory()) throw new Exception("Invalid folder specified");
+		if(!path.exists() || !path.isDirectory())
+			throw new Exception("Invalid folder specified");
 		
 		final String[] FILES = path.list();
 		for(String file : FILES) {
@@ -29,7 +31,8 @@ public class IOUtils {
 				continue;
 			final String FILE_PATH = dir + file;
 			// add the mapping
-			filesToGames.put(FILE_PATH, Sudoku.copyGameGrid(FILE_PATH));
+			final GameGrid game = SUDOKU_TYPE == 2 ? new XGameGrid(FILE_PATH) : new RGameGrid(FILE_PATH);
+			filesToGames.put(FILE_PATH, game);
 		}
 		return filesToGames;
 	}
