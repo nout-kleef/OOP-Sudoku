@@ -3,6 +3,7 @@ package sudoku.tests;
 import org.junit.Test;
 
 import sudoku.game.GameGrid;
+import sudoku.game.RGameGrid;
 
 import org.junit.Before;
 
@@ -26,42 +27,42 @@ public class GameGridBasicTest {
 
     @Test
     public void gameGridCtorTest() {
-        GameGrid game = new GameGrid(grid);
+        GameGrid game = Sudoku.copyGameGrid(grid);
     }
 
     @Test
     public void gameGridCpyCtorTest() {
-        GameGrid game = new GameGrid(grid);
-        GameGrid gameCpy = new GameGrid(game);
+        GameGrid game = Sudoku.copyGameGrid(grid);
+        GameGrid gameCpy = Sudoku.copyGameGrid(game);
     }
 
     @Test
     public void isInitialTest() {
-       GameGrid game = new GameGrid(grid);
+       GameGrid game = Sudoku.copyGameGrid(grid);
        boolean result = game.isInitial(0,0);
     }
 
     @Test
     public void getFieldTest() {
-       GameGrid game = new GameGrid(grid);
+       GameGrid game = Sudoku.copyGameGrid(grid);
        int result = game.getField(0,0);
     }
 
     @Test
     public void setFieldTest() {
-       GameGrid game = new GameGrid(grid);
+       GameGrid game = Sudoku.copyGameGrid(grid);
        game.setField(0,0,1);
     }
 
     @Test
     public void clearFieldTest() {
-       GameGrid game = new GameGrid(grid);
+       GameGrid game = Sudoku.copyGameGrid(grid);
        game.clearField(0,0);
     }
 
     @Test
     public void toStringTest() {
-        GameGrid game = new GameGrid(grid);
+        GameGrid game = Sudoku.copyGameGrid(grid);
         String result = game.toString();
     }
 }

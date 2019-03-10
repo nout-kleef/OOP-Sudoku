@@ -11,10 +11,10 @@ public abstract class GameGrid {
 	public static final int MIN_VAL = 1;
 	public static final int EMPTY_VAL = 0;
 	// formatting
-	private static final String HORIZONTAL_CELL_PADDING = " ";
-	private static final String HORIZONTAL_BLOCK_PADDING = "  ";
-	private static final String VERTICAL_CELL_PADDING = "";
-	private static final String VERTICAL_BLOCK_PADDING = "\n";
+	protected static final String HORIZONTAL_CELL_PADDING = " ";
+	protected static final String HORIZONTAL_BLOCK_PADDING = "  ";
+	protected static final String VERTICAL_CELL_PADDING = "";
+	protected static final String VERTICAL_BLOCK_PADDING = "\n";
 	
 	public GameGrid(GameGrid game) {
 		Objects.requireNonNull(game);
@@ -188,7 +188,7 @@ public abstract class GameGrid {
      * @param haystack: array of Field instances
      * @return index of needle if it exists, -1 otherwise
      */
-    private static int indexOf(int needle, Field[] haystack) {
+    protected static int indexOf(int needle, Field[] haystack) {
     	Objects.requireNonNull(haystack);
     	for(int i = 0; i < haystack.length; i++) {
     		if(haystack[i].getValue() == needle)
@@ -202,7 +202,7 @@ public abstract class GameGrid {
      * @param val: value of cell
      * @return whether the row is valid
      */
-    private boolean checkRow(int row, int val) {
+    protected boolean checkRow(int row, int val) {
     	return GameGrid.indexOf(val, this.grid[row]) == -1;
     }
     
@@ -211,7 +211,7 @@ public abstract class GameGrid {
      * @param val: value of cell
      * @return whether the column is valid
      */
-    private boolean checkColumn(int column, int val) {
+    protected boolean checkColumn(int column, int val) {
     	// convert into single array
     	Field[] rowRepresentation = new Field[this.grid.length];
     	for(int i = 0; i < rowRepresentation.length; i++)
@@ -228,7 +228,7 @@ public abstract class GameGrid {
      * @param grid: entire "sudoku"
      * @return whether the subgrid is valid
      */
-    private boolean checkSubGrid(int row, int column, int val) {
+    protected boolean checkSubGrid(int row, int column, int val) {
     	final int startRow = row - row % SUBGRID_DIM; // 0, 3, 6 etc
     	final int startCol = column - column % SUBGRID_DIM;
     	for(int i = 0; i < SUBGRID_DIM; i++) {

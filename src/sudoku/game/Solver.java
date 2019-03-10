@@ -8,12 +8,12 @@ public class Solver {
 	public static ArrayList<GameGrid> findAllSolutions(GameGrid game) {
 		ArrayList<GameGrid> solutions = new ArrayList<GameGrid>();
 		// create a deep-copy
-		GameGrid copy = new GameGrid(game);
+		GameGrid copy = Sudoku.copyGameGrid(game);
 		boolean solutionsExhausted = !solve(copy, false);
 		while(!solutionsExhausted) {
 			if(!solutionsExhausted) {
 				// add a deep-copy of the new solution
-				solutions.add(new GameGrid(copy));
+				solutions.add(Sudoku.copyGameGrid(copy));
 			}
 			solutionsExhausted = !solve(copy, true);
 		}

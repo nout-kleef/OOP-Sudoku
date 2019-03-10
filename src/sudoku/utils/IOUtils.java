@@ -7,6 +7,7 @@ import java.nio.file.Paths;
 import java.util.Scanner;
 
 import sudoku.game.GameGrid;
+import sudoku.game.RGameGrid;
 
 import java.io.UncheckedIOException;
 import java.io.File;
@@ -28,7 +29,7 @@ public class IOUtils {
 				continue;
 			final String FILE_PATH = dir + file;
 			// add the mapping
-			filesToGames.put(FILE_PATH, new GameGrid(FILE_PATH));
+			filesToGames.put(FILE_PATH, Sudoku.copyGameGrid(FILE_PATH));
 		}
 		return filesToGames;
 	}

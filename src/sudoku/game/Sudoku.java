@@ -141,7 +141,7 @@ public class Sudoku {
 			/* NOTE: calling GameGrid(Field[][]) delegates deep-copying
 			 * to that constructor, so we don't worry about that here
 			 */
-			GameGrid solutionGame = new GameGrid(game);
+			GameGrid solutionGame = Sudoku.copyGameGrid(game);
 			ArrayList<GameGrid> solutions = Solver.findAllSolutions(solutionGame);
 			if(solutions.size() == 0) {
 				System.out.println("No solution was found for this sudoku.\n"
@@ -206,7 +206,7 @@ public class Sudoku {
 	    	PATH = args[0];
     	}
     	// initialise game
-    	GameGrid game = new GameGrid(PATH);
+    	GameGrid game = Sudoku.copyGameGrid(PATH);
     	System.out.println(game);
     			
         boolean userExit = false;
@@ -215,6 +215,15 @@ public class Sudoku {
         	// handle the choice the user made
         	userExit = Sudoku.handleChoice(userChoice, game);
         }
+    }
+    
+    public static GameGrid copyGameGrid(GameGrid grid) {
+		if(grid instanceof XGameGrid) {
+			return new XGameGrid(grid);
+		} else {
+			// default is RGameGrid
+			return new RGameGrid(grid);
+		}
     }
 
 	/**

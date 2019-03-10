@@ -3,6 +3,7 @@ package sudoku.tests;
 import org.junit.Test;
 
 import sudoku.game.GameGrid;
+import sudoku.game.RGameGrid;
 import sudoku.game.Solver;
 
 import org.junit.Before;
@@ -24,7 +25,7 @@ public class SolverBasicTest {
             {4,3,0,5,0,9,0,1,2}
         };
 
-        game = new GameGrid(grid);
+        game = Sudoku.copyGameGrid(grid);
     }
 
     @Test
