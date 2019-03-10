@@ -1,4 +1,4 @@
-package sudoku;
+package sudoku.game;
 import java.util.Objects;
 
 public class GameGrid {
@@ -50,7 +50,7 @@ public class GameGrid {
 	 */
 	public GameGrid(String path) {
 		Objects.requireNonNull(path);
-		final Field[][] FIELD_GRID = initialiseGrid(utils.IOUtils.loadFromFile(path));
+		final Field[][] FIELD_GRID = initialiseGrid(sudoku.utils.IOUtils.loadFromFile(path));
 		this.grid = FIELD_GRID;
 	}
 	

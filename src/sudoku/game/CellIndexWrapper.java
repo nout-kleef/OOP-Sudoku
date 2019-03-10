@@ -1,4 +1,4 @@
-package sudoku;
+package sudoku.game;
 /**
  * exists to move around cells more easily
  * @author noutk

@@ -1,6 +1,9 @@
-package sudoku;
+package sudoku.tests;
 
 import org.junit.Test;
+
+import sudoku.game.GameGrid;
+
 import org.junit.Before;
 
 public class GameGridBasicTest {

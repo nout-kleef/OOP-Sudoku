@@ -1,11 +1,11 @@
-package sudoku;
+package sudoku.game;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-import utils.IOUtils;
+import sudoku.utils.IOUtils;
 
 //import jdk.nashorn.internal.runtime.linker.JavaAdapterFactory;
 

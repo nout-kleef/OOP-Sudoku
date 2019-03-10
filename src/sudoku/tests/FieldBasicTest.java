@@ -1,6 +1,9 @@
-package sudoku;
+package sudoku.tests;
 
 import org.junit.Test;
+
+import sudoku.game.Field;
+
 import org.junit.Before;
 
 public class FieldBasicTest {

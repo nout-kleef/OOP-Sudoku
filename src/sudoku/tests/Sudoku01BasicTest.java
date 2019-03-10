@@ -1,14 +1,12 @@
-package sudoku;
+package sudoku.tests;
 
 import org.junit.Test;
-import org.junit.Before;
 
-public class SolverBasicTest {
-    private GameGrid game;
+public class Sudoku01BasicTest {
 
-    @Before
-    public void setUp() {
-        int[][] grid = new int[][]{
+    @Test
+    public void printGridTest() {
+        int[][] grid = {
             {9,4,0,1,0,2,0,5,8},
             {6,0,0,0,5,0,0,0,4},
             {0,0,2,4,0,3,1,0,0},
@@ -20,12 +18,7 @@ public class SolverBasicTest {
             {4,3,0,5,0,9,0,1,2}
         };
 
-        game = new GameGrid(grid);
-    }
-
-    @Test
-    public void solveTest() {
-        boolean result = Solver.solve(game);
+//        Sudoku.printGrid(grid);
     }
 
 }

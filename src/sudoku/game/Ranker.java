@@ -1,4 +1,4 @@
-package sudoku;
+package sudoku.game;
 
 public class Ranker {
 	public static float rankSudoku(GameGrid game) {

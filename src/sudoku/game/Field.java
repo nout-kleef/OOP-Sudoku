@@ -1,4 +1,4 @@
-package sudoku;
+package sudoku.game;
 
 public class Field {
 	private final static String IS_INITIAL_INDICATOR = "'";
