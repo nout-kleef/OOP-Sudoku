@@ -9,7 +9,7 @@ import utils.IOUtils;
 
 //import jdk.nashorn.internal.runtime.linker.JavaAdapterFactory;
 
-public class Sudoku01 {
+public class Sudoku {
 	final static String SEP = System.getProperty("file.separator");
 	final static String GAMES_FOLDER_STRING = System.getProperty("user.dir") +
 			SEP + "games" + SEP;
@@ -61,8 +61,8 @@ public class Sudoku01 {
      * @return whether the user chose to exit the program/game
      */
     public static int gameLoop() {
-    	Sudoku01.printMenu();
-    	return Sudoku01.requestInt("your chosen menu option", 1, MENU_OPTIONS.length);
+    	Sudoku.printMenu();
+    	return Sudoku.requestInt("your chosen menu option", 1, MENU_OPTIONS.length);
     }
 
     /**
@@ -100,15 +100,15 @@ public class Sudoku01 {
     	java.util.Objects.requireNonNull(game);
     	final int MAX = GameGrid.MAX_VAL;
     	final String range = "(1-" + MAX + ")";
-    	final int i = Sudoku01.requestInt("a row number " + range, 1, MAX) - 1; // -1 for 0-indexing
-    	final int j = Sudoku01.requestInt("a column number " + range, 1, MAX) - 1; // -1 for 0-indexing
+    	final int i = Sudoku.requestInt("a row number " + range, 1, MAX) - 1; // -1 for 0-indexing
+    	final int j = Sudoku.requestInt("a column number " + range, 1, MAX) - 1; // -1 for 0-indexing
     	int val = GameGrid.EMPTY_VAL;
     	if(clear) {
     		game.clearField(i, j);
     	} else {
     		boolean valid = true;
     		do {
-    			val = Sudoku01.requestInt("the desired value for the cell in row: " +
+    			val = Sudoku.requestInt("the desired value for the cell in row: " +
     							(i + 1) + ", column: " + (j + 1) + " " + range, 1, MAX);
     			valid = game.setField(i, j, val);
     			if(!valid)
@@ -128,10 +128,10 @@ public class Sudoku01 {
     	java.util.Objects.requireNonNull(game);
     	switch (userChoice) {
 		case 1:
-			Sudoku01.setField(game, false);
+			Sudoku.setField(game, false);
 			return false;
 		case 2:
-			Sudoku01.setField(game, true);
+			Sudoku.setField(game, true);
 			return false;
 		case 3:
 			System.out.println(game);
@@ -238,7 +238,7 @@ public class Sudoku01 {
         while(!userExit) {
         	final int userChoice = gameLoop(); // hardcoded min and max. tolerated since the menu itself is also hardcoded
         	// handle the choice the user made
-        	userExit = Sudoku01.handleChoice(userChoice, game);
+        	userExit = Sudoku.handleChoice(userChoice, game);
         }
     }
 }
