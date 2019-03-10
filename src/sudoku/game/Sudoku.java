@@ -6,14 +6,15 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import sudoku.utils.IOUtils;
+import sudoku.utils.RankerRun;
 
 //import jdk.nashorn.internal.runtime.linker.JavaAdapterFactory;
 
 public class Sudoku {
-	final static String SEP = System.getProperty("file.separator");
-	final static String GAMES_FOLDER_STRING = System.getProperty("user.dir") +
-			SEP + "games" + SEP;
-	final static File GAMES_FOLDER = new File(GAMES_FOLDER_STRING);
+	private final static String SEP = System.getProperty("file.separator");
+	private final static String GAMES_FOLDER_STRING = System.getProperty("user.dir") +
+			getSep() + "games" + getSep();
+	final static File GAMES_FOLDER = new File(getGamesFolderString());
 	final static String[] MENU_OPTIONS = 
 		{
 				"Set field",
@@ -170,7 +171,7 @@ public class Sudoku {
 		}
     }
     
-    private static File[] listFilesForFolder(final File folder) {
+    static File[] listFilesForFolder(final File folder) {
     	final File[] FILE_LIST = folder.listFiles();
     	ArrayList<File> results = new ArrayList<File>();
     	for(int i = 0; i < FILE_LIST.length; i++) {
@@ -189,35 +190,9 @@ public class Sudoku {
     		throw new IllegalArgumentException("no args specified");
     	final String PATH;
     	if(args[0].equals("--interactive")) {
-    		/* assume that a "games" dir exists in the project dir.
-    		 * let the user pick any sudoku from this directory (non-recursive)
-    		 */
-    		final File[] OPTIONS = listFilesForFolder(GAMES_FOLDER);
-    		// request puzzle
-    		System.out.println("You've initiated this program in interactive "
-    				+ "mode.\nPlease pick the desired puzzle by entering "
-    				+ "the file's index:");
-    		for(int i = 0; i < OPTIONS.length; i++) {
-    			final String OPTION = OPTIONS[i].toString();
-    			final int REDUNDANT_ENDS_INDEX = OPTION.lastIndexOf(SEP);
-    			final String READABLE = OPTION.substring(REDUNDANT_ENDS_INDEX + 1);
-    			System.out.println("\t" + (i + 1) + ") \t" + READABLE);
-    		}
-    		final int PUZZLE_INDEX = 
-    				requestInt("the file's index", 1, OPTIONS.length) - 1;
-    		// set up using chosen file
-    		PATH = OPTIONS[PUZZLE_INDEX].toString();
+    		PATH = new SudokuGame(args).getPath();
     	} else if(args[0].equals("--folder")) {
-    		HashMap<String, GameGrid> filesToGames = IOUtils.loadFromFolder(GAMES_FOLDER_STRING);
-    		System.out.println("Calculating ranks for all eligible sudokus in "
-    				+ "the games folder..");
-    		for(String file : filesToGames.keySet()) {
-    			final float RANK = Ranker.rankSudoku(filesToGames.get(file));
-    			final int SUBSTRING_INDEX = file.lastIndexOf(SEP);
-    			final String SUDOKU_NAME = file.substring(SUBSTRING_INDEX);
-    			System.out.printf("Sudoku: %s,\trank: %f\n", SUDOKU_NAME, RANK);
-//    			System.out.println(file);
-    		}
+    		new RankerRun(args);
     		return;
     	} else {
     		/* assume args[0] is the path for the sudoku file
@@ -236,9 +211,23 @@ public class Sudoku {
     			
         boolean userExit = false;
         while(!userExit) {
-        	final int userChoice = gameLoop(); // hardcoded min and max. tolerated since the menu itself is also hardcoded
+        	final int userChoice = gameLoop();
         	// handle the choice the user made
         	userExit = Sudoku.handleChoice(userChoice, game);
         }
     }
+
+	/**
+	 * @return the gamesFolderString
+	 */
+	public static String getGamesFolderString() {
+		return GAMES_FOLDER_STRING;
+	}
+
+	/**
+	 * @return the platform-specific file separator
+	 */
+	public static String getSep() {
+		return SEP;
+	}
 }
