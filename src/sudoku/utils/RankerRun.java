@@ -8,7 +8,14 @@ import sudoku.game.Sudoku;
 
 public class RankerRun {
 	public RankerRun(String[] args) {
-		HashMap<String, GameGrid> filesToGames = IOUtils.loadFromFolder(Sudoku.getGamesFolderString());
+		HashMap<String, GameGrid> filesToGames;
+		try {
+			filesToGames = IOUtils.loadFromFolder(Sudoku.getGamesFolderString());
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("Invalid folder specified. Terminating..");
+			return;
+		}
 		System.out.println("Calculating ranks for all eligible sudokus in "
 				+ "the games folder..");
 		for(String file : filesToGames.keySet()) {

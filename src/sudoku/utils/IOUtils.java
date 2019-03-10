@@ -18,19 +18,14 @@ public class IOUtils {
 	
 	private static final boolean DEBUG = true;
 	
-	public static HashMap<String, GameGrid> loadFromFolder(String dir) {
+	public static HashMap<String, GameGrid> loadFromFolder(String dir) throws Exception {
 		File path = new File(dir);
 		HashMap<String, GameGrid> filesToGames = new HashMap<String, GameGrid>();
+		
+		if(!path.exists() || !path.isDirectory()) throw new Exception("Invalid folder specified");
+		
 		final String[] FILES = path.list();
-		try {
-			Objects.requireNonNull(FILES);
-		} catch(NullPointerException e) {
-			// path.list() returns null if path does not point to a directory
-			if(DEBUG)
-				System.out.println("No directory found.");
-			return filesToGames;
-		}
-		for(String file: FILES) {
+		for(String file : FILES) {
 			if(!file.endsWith(".sd") || file.contains("unsolvable"))
 				continue;
 			final String FILE_PATH = dir + file;
