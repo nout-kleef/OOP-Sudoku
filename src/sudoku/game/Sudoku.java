@@ -1,11 +1,9 @@
 package sudoku.game;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-import sudoku.utils.IOUtils;
 import sudoku.utils.RankerRun;
 
 //import jdk.nashorn.internal.runtime.linker.JavaAdapterFactory;

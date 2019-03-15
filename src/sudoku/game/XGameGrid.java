@@ -17,7 +17,6 @@ public final class XGameGrid extends GameGrid {
 	 */
 	public XGameGrid(GameGrid game) {
 		super(game);
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -25,7 +24,6 @@ public final class XGameGrid extends GameGrid {
 	 */
 	public XGameGrid(int[][] grid) {
 		super(grid);
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -33,7 +31,6 @@ public final class XGameGrid extends GameGrid {
 	 */
 	public XGameGrid(String path) {
 		super(path);
-		// TODO Auto-generated constructor stub
 	}
 	
 	@Override

@@ -14,7 +14,6 @@ public final class RGameGrid extends GameGrid {
 	 */
 	public RGameGrid(GameGrid game) {
 		super(game);
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -22,7 +21,6 @@ public final class RGameGrid extends GameGrid {
 	 */
 	public RGameGrid(int[][] grid) {
 		super(grid);
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -30,7 +28,6 @@ public final class RGameGrid extends GameGrid {
 	 */
 	public RGameGrid(String path) {
 		super(path);
-		// TODO Auto-generated constructor stub
 	}
 	
 	/**
