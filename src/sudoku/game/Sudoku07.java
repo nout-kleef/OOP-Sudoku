@@ -1,6 +1,9 @@
 package sudoku.game;
 
 import javax.swing.JOptionPane;
+
+import sudoku.gui.SudokuFrame;
+
 import javax.swing.JFrame;
 import java.io.File;
 
